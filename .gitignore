@@ -12,7 +12,7 @@ xcuserdata
 profile
 *.moved-aside
 DerivedData
-.idea/
+*.idea/
 *.hmap
 *__pycache__/
 *pyc
