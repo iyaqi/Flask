@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block scripts %}
+    {{ super() }}
+    {{ moment.include_moment() }}
+{% endblock scripts %}
+
+{% block content %}
+  <h1>I'm {{user.nikeName}}</h1>
+  <a>时间：{{ moment(current_time).format('llll') }}</a>
+{% endblock content %}
