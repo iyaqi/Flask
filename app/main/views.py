@@ -1,15 +1,14 @@
 from datetime import datetime
 
-from flask import redirect, render_template,session
+from flask import render_template
 
 from . import main
-from .forms import LoginForm
-from ..models import User,Role
-from .. import db
+
 
 # index
 
-@main.route('/',methods =['GET','POST'])
+@main.route('/')
+@main.route('/index',methods =['GET','POST'])
 def index():
     user = {'nikeName': 'Dodge'}
     posts = [
@@ -56,29 +55,4 @@ def about():
                            user=user,
                            current_time = datetime.utcnow()
                            )
-
-# login
-
-
-@main.route('/login', methods=['GET', 'POST'])
-def login():
-    if form.validate_on_submit():
-        form = LoginForm()
-        user = User.query.filter_by(username=form.userName.data).first()
-        # if user is None:
-        #     user = User(username = form.userName.data)
-        #     db.session.add(user)
-        #     session['known'] = False
-        # else:
-        #     session['known'] = True
-        # session['name'] = form.userName.data
-        return redirect(url_for('.index'))
-    return render_template('login.html',
-                           form=form,
-                           name = session.get('name')
-                           # known = session.get('known',False),
-                           # current_time = datetime.utcnow()
-                           )
-
-
 
