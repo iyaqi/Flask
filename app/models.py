@@ -19,7 +19,7 @@ class User(UserMixin,db.Model):
 
     id = db.Column(db.Integer,primary_key=True) # id
     name = db.Column(db.String,index=True) #名称
-    mail = db.Column(db.String) # 邮箱
+    email = db.Column(db.String) # 邮箱
     password_hash = db.Column(db.String) # 密码
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id')) #角色
 
