@@ -12,11 +12,19 @@
     <div class="container">
         {% for message in get_flashed_messages() %}
             <div class="alert alert-warning fade in">
-             {{ message }}
+                {{ message }}
                 <button type="button" class="close" data-dismiss="alert">x</button>
              </div>
         {% endfor %}
-      <h1>登录</h1>
-      {{ wtf.quick_form(form) }}
+        <div class="page-header">
+            <h1>登录</h1>
+         </div>
+        {{ wtf.quick_form(form) }}
+        <p>
+            新用户？
+            <a href="{{ url_for('auth.register')}}">
+                点这里
+            </a>
+        </p>
     </div>
 {% endblock content %}

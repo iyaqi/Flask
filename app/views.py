@@ -1,4 +1,4 @@
-from . import app
+import app
 from flask_login import login_required
 from flask import flash
 
@@ -6,3 +6,4 @@ from flask import flash
 @login_required
 def secret():
     flash('Only authenticated users are allowed!')
+

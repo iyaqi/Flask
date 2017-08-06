@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Hi , {{user.nikeName}}</h1>
 
-    {% for post in posts %}
-    <div>
-         <p>
-             {{post.author}} says: {{post.Content}}
-        </p>
-    </div>
-    {% endfor %}
 
+    {% if current_user.is_authenticated %}
+        <div>
+            <h1>hi,{{ current_user.name }}</h1>
+        </div>
+    {% else %}
+        <div>
+            <h1>hi,Stranger</h1>
+        </div>
+    {% endif %}
 {% endblock content %}
