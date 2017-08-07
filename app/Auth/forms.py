@@ -15,6 +15,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField(id='Sign',label="登录")
 
 
+
 # 注册
 class RegisterForm(FlaskForm):
 
@@ -52,6 +53,34 @@ class RegisterForm(FlaskForm):
         ]
     )
     submit = SubmitField(
-        id='Sign',
+        id='sign',
         label="注册"
+    )
+
+class ResetPasswordForm(FlaskForm):
+    password = PasswordField(
+        id='password',
+        label="旧密码",
+        validators=[
+            DataRequired(),
+        ]
+    )
+    new_password1 = PasswordField(
+        id='password1',
+        label="新密码",
+        validators=[
+            DataRequired(),
+        ]
+    )
+    new_password2 = PasswordField(
+        id='password2',
+        label="重复新密码",
+        validators=[
+            DataRequired(),
+            EqualTo('password1',message='新密码不一致!')
+        ]
+    )
+    submit = SubmitField(
+        id='save',
+        label="修改"
     )

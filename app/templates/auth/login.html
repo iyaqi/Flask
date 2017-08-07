@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 
+
 {% block title %}
     登录
 {% endblock %}
 {#{% block scripts %}#}
 {#{{ super() }}#}
 {#{% endblock scripts %}#}
+
+{% block navbar %}
+{% endblock navbar %}
 
 {% block content %}
     <div class="container">
@@ -21,6 +25,9 @@
          </div>
         {{ wtf.quick_form(form) }}
         <p>
+            <a href="{{ url_for('auth.resetpassword')}}">
+                 忘记密码？
+            </a>
             新用户？
             <a href="{{ url_for('auth.register')}}">
                 点这里

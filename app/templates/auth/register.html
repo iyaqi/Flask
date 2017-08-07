@@ -5,11 +5,15 @@
     注册
 {% endblock title %}
 
+{% block navbar %}
+{% endblock navbar %}
+
 {% block content %}
     <div class="container">
         <div class="page-header">
             <h1>注册</h1>
          </div>
         {{ wtf.quick_form(form) }}
+        <a href="{{ url_for('auth.login') }}">去登录</a>
     </div>
 {% endblock content %}

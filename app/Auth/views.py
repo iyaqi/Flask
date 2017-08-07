@@ -2,10 +2,19 @@ from flask import render_template,redirect,request,url_for,flash
 from flask_login import login_user,logout_user,login_required,current_user
 
 from . import auth
-from .forms import LoginForm,RegisterForm
+from .forms import LoginForm,RegisterForm,ResetPasswordForm
 from ..models import User
 from .. import db
 from ..mail import send_email
+
+
+@auth.before_app_request
+def before_request():
+    if current_user.is_authenticated \
+            and not current_user.confirmed \
+            and request.endpoint \
+            and request.endpoint[:5] != 'auth.' :
+        return redirect(url_for('auth.unconfirmed'))
 
 # 登录
 @auth.route('/login', methods=['GET', 'POST'])
@@ -49,6 +58,7 @@ def register():
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form = form)
 
+# 验证邮箱
 @auth.route('/confirm/<token>')
 @login_required
 def confirm(token):
@@ -76,16 +86,17 @@ def resend_confirmation():
 
 @auth.route('/unconfirmed')
 def unconfirmed():
-    print(current_user.is_anonymous,current_user.confirmed)
+    # print(current_user.is_anonymous,current_user.confirmed)
     if current_user.is_anonymous or current_user.confirmed:
         return redirect(url_for('main.index'))
     return render_template('auth/unconfirmed.html')
 
-@auth.before_app_request
-def before_request():
-    if current_user.is_authenticated \
-            and not current_user.confirmed \
-            and request.endpoint \
-            and request.endpoint[:5] != 'auth.' :
-        return redirect(url_for('auth.unconfirmed'))
+
+@auth.route('/resetpassword')
+def resetpassword():
+    form = ResetPasswordForm()
+    return render_template(
+        'auth/resetpassword.html',
+        form=form
+    )
 
