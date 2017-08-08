@@ -13,7 +13,6 @@ def index():
 
 # About
 
-
 @main.route('/about',endpoint='about')
 def about():
     user = {'nikeName': 'Dodge'}

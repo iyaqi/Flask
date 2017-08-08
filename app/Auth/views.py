@@ -92,9 +92,16 @@ def unconfirmed():
     return render_template('auth/unconfirmed.html')
 
 
-@auth.route('/resetpassword')
+@auth.route('/resetpassword',methods=['GET','POST'])
 def resetpassword():
     form = ResetPasswordForm()
+    if form.validate_on_submit():
+        print(current_user.id)
+        user = User.query.filter_by(id=current_user.id).first()
+        if user.verify_password(form.password.data):
+            user.password = form.new_password1.data
+            db.session.add(user)
+            return redirect(url_for('main.index'))
     return render_template(
         'auth/resetpassword.html',
         form=form

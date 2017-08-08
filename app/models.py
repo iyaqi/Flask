@@ -27,7 +27,7 @@ class User(UserMixin,db.Model):
 
     password_hash = db.Column(db.String) # 密码
 
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id')) #角色
+    role_id = db.Column(db.Integer, db.ForeignKey('roles.id')) # 角色
 
     confirmed = db.Column(db.Boolean,default=False)
 

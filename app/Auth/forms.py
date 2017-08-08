@@ -59,25 +59,25 @@ class RegisterForm(FlaskForm):
 
 class ResetPasswordForm(FlaskForm):
     password = PasswordField(
-        id='password',
+        id='old_password',
         label="旧密码",
         validators=[
             DataRequired(),
         ]
     )
     new_password1 = PasswordField(
-        id='password1',
+        id='new_password1',
         label="新密码",
         validators=[
             DataRequired(),
         ]
     )
     new_password2 = PasswordField(
-        id='password2',
+        id='new_password2',
         label="重复新密码",
         validators=[
             DataRequired(),
-            EqualTo('password1',message='新密码不一致!')
+            EqualTo('new_password1',message='新密码不一致!'),
         ]
     )
     submit = SubmitField(
