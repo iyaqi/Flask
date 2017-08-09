@@ -84,3 +84,14 @@ class ResetPasswordForm(FlaskForm):
         id='save',
         label="修改"
     )
+class InputEmailForm(FlaskForm):
+    email = StringField(id='Email', label="邮箱",
+                        validators=[
+                            DataRequired(),
+                            Length(1, 64),
+                            Email()
+                        ])
+    submit = SubmitField(
+        id='save',
+        label="下一步"
+    )
