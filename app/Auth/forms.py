@@ -84,6 +84,8 @@ class ResetPasswordForm(FlaskForm):
         id='save',
         label="修改"
     )
+    
+# 输入邮箱
 class InputEmailForm(FlaskForm):
     email = StringField(id='Email', label="邮箱",
                         validators=[
@@ -94,4 +96,26 @@ class InputEmailForm(FlaskForm):
     submit = SubmitField(
         id='save',
         label="下一步"
+    )
+
+# 设置密码
+class SetPasswordForm(FlaskForm):
+    new_password1 = PasswordField(
+        id='new_password1',
+        label="新密码",
+        validators=[
+            DataRequired(),
+        ]
+    )
+    new_password2 = PasswordField(
+        id='new_password2',
+        label="重复新密码",
+        validators=[
+            DataRequired(),
+            EqualTo('new_password1',message='新密码不一致!'),
+        ]
+    )
+    submit = SubmitField(
+        id='save',
+        label="保存"
     )

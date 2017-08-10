@@ -5,8 +5,14 @@
 
 {% block content %}
     <div class="container">
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning fade in">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert">x</button>
+             </div>
+        {% endfor %}
         <div class="page-header">
-            <h1>修改密码</h1>
+            <h1>输入邮箱</h1>
         </div>
     {{ wtf.quick_form(form) }}
     </div>

@@ -2,7 +2,7 @@ from flask import render_template, redirect, request, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 
 from . import auth
-from .forms import LoginForm, RegisterForm, ResetPasswordForm,InputEmailForm
+from .forms import LoginForm, RegisterForm, ResetPasswordForm,InputEmailForm,SetPasswordForm
 from ..models import User
 from .. import db
 from ..mail import send_email
@@ -53,7 +53,7 @@ def register():
 			user = User(email=form.email.data.lower(), name=form.name.data, password=form.password.data)
 			db.session.add(user)
 			db.session.commit()
-			token = user.generate_confirmation_tolen()
+			token = user.generate_confirmation_token()
 			send_email(
 				user.email,
 				'Confirm your account', 'auth/email/confirm',
@@ -118,11 +118,12 @@ def resetpassword():
 	)
 
 # 输入邮箱，发送验证邮件
-@auth.route('inputemail',methods=['GET','POST'])
+@auth.route('/inputemail',methods=['GET','POST'])
 def inputemail():
 	form = InputEmailForm()
 	if form.validate_on_submit():
 		user = User.query.filter_by(email=form.email.data.lower()).first()
+		print(user)
 		if user is not None:
 			token = user.generate_confirmation_token()
 			send_email(user.email, '修改密码',
@@ -133,7 +134,23 @@ def inputemail():
 				form=form
 			)
 
-
-@auth.route('setpasswordconfirm/<token>')
+@auth.route('/setpasswordconfirm/<token>')
 def setpasswordconfirm(token):
-	pass
+	print(current_user)
+	user = User.query.filter_by(id=current_user.id).first()
+	if user.confirm(token):
+		flash('恭喜你通过验证')
+	else:
+		flash('你的验证信息已过期')
+	return redirect(url_for('auth.setpassword'))
+
+# 设置新密码
+@auth.route('/setpassword',methods=['GET','POST'])
+def setpassword():
+	form = SetPasswordForm()
+	if form.validate_on_submit():
+		user = User.query.filter_by(id=current_user.id).first()
+		user.password = form.new_password1.data
+		db.session.add(user)
+		return redirect(url_for('auth.login'))
+	return render_template('auth/setpassword.html')
